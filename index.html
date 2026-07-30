@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bright Future Academy | Premium Coaching Institute</title>
+    <meta name="description" content="Empowering students for a brighter future through expert coaching and mentorship.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Alpine.js (for logic) -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#2563EB',
+                            gold: '#F59E0B',
+                            dark: '#0F172A'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #2563EB, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .masonry {
+            column-count: 3;
+            column-gap: 1.5rem;
+        }
+        @media (max-width: 768px) { .masonry { column-count: 2; } }
+        @media (max-width: 480px) { .masonry { column-count: 1; } }
+        
+        .floating { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #2563EB; border-radius: 10px; }
+    </style>
+</head>
+<body x-data="{ darkMode: false, isScrolled: false, mobileMenu: false }" 
+      :class="darkMode ? 'dark bg-slate-950' : 'bg-white'"
+      @scroll.window="isScrolled = (window.pageYOffset > 50 ? true : false)">
+
+    <!-- Scroll Progress Indicator -->
+    <div class="fixed top-0 left-0 z-[100] h-1 bg-brand-gold transition-all duration-150" 
+         :style="'width: ' + (Math.min((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100, 100)) + '%'"></div>
+
+    <!-- START: Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300"
+         :class="isScrolled ? 'glass-nav bg-white/80 dark:bg-slate-950/80 shadow-lg py-3' : 'bg-transparent py-5'">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="bg-brand-blue p-2 rounded-xl group-hover:rotate-12 transition-transform">
+                    <i data-lucide="graduation-cap" class="text-white w-6 h-6"></i>
+                </div>
+                <span class="text-2xl font-extrabold tracking-tight" :class="isScrolled || darkMode ? 'text-brand-blue dark:text-white' : 'text-brand-blue'">
+                    Bright<span class="text-brand-gold">Future</span>
+                </span>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#home" class="font-semibold hover:text-brand-blue dark:text-slate-300 dark:hover:text-brand-gold transition-colors">Home</a>
+                <a href="#about" class="font-semibold hover:text-brand-blue dark:text-slate-300 dark:hover:text-brand-gold transition-colors">Why Us</a>
+                <a href="#courses" class="font-semibold hover:text-brand-blue dark:text-slate-300 dark:hover:text-brand-gold transition-colors">Courses</a>
+                <a href="#faculty" class="font-semibold hover:text-brand-blue dark:text-slate-300 dark:hover:text-brand-gold transition-colors">Faculty</a>
+                <a href="#contact" class="font-semibold hover:text-brand-blue dark:text-slate-300 dark:hover:text-brand-gold transition-colors">Contact</a>
+                
+                <button @click="darkMode = !darkMode" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-yellow-400">
+                    <i :data-lucide="darkMode ? 'sun' : 'moon'" class="w-5 h-5"></i>
+                </button>
+                
+                <a href="#contact" class="bg-brand-blue text-white px-6 py-2.5 rounded-full font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 dark:shadow-none">
+                    Apply Now
+                </a>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <div class="md:hidden flex items-center gap-4">
+                <button @click="darkMode = !darkMode" class="text-slate-700 dark:text-white"><i data-lucide="moon" class="w-6 h-6"></i></button>
+                <button @click="mobileMenu = !mobileMenu" class="text-slate-900 dark:text-white"><i data-lucide="menu" class="w-8 h-8"></i></button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div x-show="mobileMenu" x-transition x-cloak class="fixed inset-0 bg-white dark:bg-slate-950 z-[60] flex flex-col p-8">
+            <div class="flex justify-between items-center mb-12">
+                <span class="text-2xl font-bold">Menu</span>
+                <button @click="mobileMenu = false"><i data-lucide="x" class="w-8 h-8"></i></button>
+            </div>
+            <div class="flex flex-col gap-6 text-2xl font-bold">
+                <a @click="mobileMenu = false" href="#home">Home</a>
+                <a @click="mobileMenu = false" href="#courses">Courses</a>
+                <a @click="mobileMenu = false" href="#faculty">Faculty</a>
+                <a @click="mobileMenu = false" href="#contact" class="text-brand-blue">Apply Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- START: Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-blue-50 dark:bg-slate-900/50 -z-10 rounded-l-[100px] hidden lg:block"></div>
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right" data-aos-duration="1000">
+                <span class="inline-block py-2 px-4 rounded-full bg-blue-100 dark:bg-blue-900/30 text-brand-blue dark:text-blue-400 font-bold text-sm mb-6">
+                    🚀 Admissions Open for 2024-25
+                </span>
+                <h1 class="text-5xl lg:text-7xl font-extrabold text-slate-900 dark:text-white leading-tight mb-6">
+                    Empowering Students for a <span class="text-brand-blue">Brighter</span> Future
+                </h1>
+                <p class="text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-lg">
+                    Premium coaching with expert mentors, personalized study plans, and a track record of 95% success. Your journey to excellence starts here.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <button class="bg-brand-blue text-white px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-xl shadow-blue-200 flex items-center gap-2">
+                        View Courses <i data-lucide="chevron-right"></i>
+                    </button>
+                    <button class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-slate-50 transition-all dark:text-white">
+                        Free Counseling
+                    </button>
+                </div>
+            </div>
+            <div class="relative" data-aos="zoom-in" data-aos-duration="1000">
+                <div class="relative z-10 floating">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80" 
+                         alt="Education" class="rounded-[40px] shadow-2xl border-8 border-white dark:border-slate-800">
+                </div>
+                <!-- Floating Card -->
+                <div class="absolute -bottom-10 -left-10 bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-2xl z-20 hidden md:flex items-center gap-4">
+                    <div class="w-12 h-12 bg-brand-gold rounded-full flex items-center justify-center text-white">
+                        <i data-lucide="star" class="fill-current"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-xl dark:text-white">4.9/5 Rating</h4>
+                        <p class="text-sm text-slate-500">From 2000+ Students</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- START: Statistics -->
+    <section class="py-20 bg-brand-blue">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+                <div data-aos="fade-up">
+                    <div class="text-4xl md:text-5xl font-black mb-2">5000+</div>
+                    <div class="text-blue-100 font-medium uppercase tracking-widest text-sm">Students Taught</div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-4xl md:text-5xl font-black mb-2">100+</div>
+                    <div class="text-blue-100 font-medium uppercase tracking-widest text-sm">Expert Faculty</div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-4xl md:text-5xl font-black mb-2">95%</div>
+                    <div class="text-blue-100 font-medium uppercase tracking-widest text-sm">Success Rate</div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-4xl md:text-5xl font-black mb-2">10+</div>
+                    <div class="text-blue-100 font-medium uppercase tracking-widest text-sm">Years Excellence</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- START: Why Choose Us -->
+    <section id="about" class="py-24 dark:bg-slate-900/30">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold dark:text-white mb-4">Why Choose Us?</h2>
+            <div class="w-24 h-1.5 bg-brand-gold mx-auto mb-16 rounded-full"></div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature Card -->
+                <div class="p-10 rounded-[32px] bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-2xl transition-all group" data-aos="fade-up">
+                    <div class="w-16 h-16 bg-blue-50 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center text-brand-blue mb-8 group-hover:bg-brand-blue group-hover:text-white transition-colors">
+                        <i data-lucide="users" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold dark:text-white mb-4">Expert Faculty</h3>
+                    <p class="text-slate-600 dark:text-slate-400">Learn from top-tier educators with 15+ years of experience in competitive coaching.</p>
+                </div>
+                <!-- Repeat for other features -->
+                <div class="p-10 rounded-[32px] bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-2xl transition-all group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-amber-50 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center text-brand-gold mb-8 group-hover:bg-brand-gold group-hover:text-white transition-colors">
+                        <i data-lucide="book-open" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold dark:text-white mb-4">Smart Learning</h3>
+                    <p class="text-slate-600 dark:text-slate-400">Digital classrooms with 3D visualizations and interactive modules for better clarity.</p>
+                </div>
+                <div class="p-10 rounded-[32px] bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-2xl transition-all group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-green-50 dark:bg-green-900/30 rounded-2xl flex items-center justify-center text-green-600 mb-8 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                        <i data-lucide="award" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold dark:text-white mb-4">Proven Results</h3>
+                    <p class="text-slate-600 dark:text-slate-400">Consistently producing top rankers in JEE, NEET, and Board examinations every year.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- START: Popular Courses -->
+    <section id="courses" class="py-24 bg-slate-50 dark:bg-slate-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-16">
+                <div class="max-w-xl">
+                    <h2 class="text-4xl font-bold dark:text-white mb-4">Popular Courses</h2>
+                    <p class="text-slate-600 dark:text-slate-400">Structured curriculum designed to build fundamentals and excel in competitions.</p>
+                </div>
+                <button class="hidden md:block text-brand-blue font-bold flex items-center gap-2">View All <i data-lucide="arrow-right"></i></button>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Course Card -->
+                <div class="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg group" data-aos="zoom-in">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-duration-500">
+                        <div class="absolute top-4 left-4 bg-brand-blue text-white px-4 py-1 rounded-full text-sm font-bold">1 Year Program</div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold dark:text-white mb-3">JEE Foundation</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-6">Master Physics, Chemistry, and Math for IIT entrance exams.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-gold font-bold">Registration Open</span>
+                            <button class="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center hover:bg-brand-blue hover:text-white transition-all">
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg group" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1576085898323-2183ba9b2203?auto=format&fit=crop&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-duration-500">
+                        <div class="absolute top-4 left-4 bg-brand-blue text-white px-4 py-1 rounded-full text-sm font-bold">2 Year Program</div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold dark:text-white mb-3">NEET Excellence</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-6">Comprehensive coaching for medical aspirants by experts.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-gold font-bold">Scholarships Avail.</span>
+                            <button class="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center hover:bg-brand-blue hover:text-white transition-all">
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg group" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-duration-500">
+                        <div class="absolute top-4 left-4 bg-brand-blue text-white px-4 py-1 rounded-full text-sm font-bold">6 Months</div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold dark:text-white mb-3">CUET Preparation</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-6">Specialized crash course for Central University Entrance Tests.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-gold font-bold">New Batch: Aug 1st</span>
+                            <button class="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center hover:bg-brand-blue hover:text-white transition-all">
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- START: Faculty Section -->
+    <section id="faculty" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold dark:text-white mb-4">Meet Our Expert Faculty</h2>
+                <p class="text-slate-600 dark:text-slate-400 italic">Learn from the best minds in the industry.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center group" data-aos="fade-up">
+                    <div class="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-slate-100 dark:border-slate-800 mb-6 group-hover:border-brand-blue transition-all">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80" class="w-full h-full object-cover">
+                    </div>
+                    <h4 class="text-xl font-bold dark:text-white">Dr. Sarah Smith</h4>
+                    <p class="text-brand-blue font-semibold">Head of Physics</p>
+                </div>
+                <div class="text-center group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-slate-100 dark:border-slate-800 mb-6 group-hover:border-brand-blue transition-all">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80" class="w-full h-full object-cover">
+                    </div>
+                    <h4 class="text-xl font-bold dark:text-white">Prof. Rajesh Kumar</h4>
+                    <p class="text-brand-blue font-semibold">Math Guru</p>
+                </div>
+                <div class="text-center group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-slate-100 dark:border-slate-800 mb-6 group-hover:border-brand-blue transition-all">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80" class="w-full h-full object-cover">
+                    </div>
+                    <h4 class="text-xl font-bold dark:text-white">Ms. Ananya Iyer</h4>
+                    <p class="text-brand-blue font-semibold">Biology Lead</p>
+                </div>
+                <div class="text-center group" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-slate-100 dark:border-slate-800 mb-6 group-hover:border-brand-blue transition-all">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80" class="w-full h-full object-cover">
+                    </div>
+                    <h4 class="text-xl font-bold dark:text-white">David Wilson</h4>
+                    <p class="text-brand-blue font-semibold">Chemistry HOD</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- START: Testimonials -->
+    <section class="py-24 bg-slate-900 text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-4xl md:text-6xl font-bold mb-8">What Our Students <span class="text-brand-gold">Say</span></h2>
+                <div class="p-8 bg-slate-800/50 border-l-4 border-brand-gold rounded-r-3xl italic text-xl leading-relaxed">
+                    "The personal attention I received at Bright Future Academy was life-changing. The teachers don't just teach; they mentor you for life. I owe my IIT rank to them!"
+                    <div class="mt-6 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-brand-gold rounded-full flex items-center justify-center font-bold text-slate-900">RK</div>
+                        <div>
+                            <p class="not-italic font-bold">Rohan Kapoor</p>
+                            <p class="not-italic text-sm text-slate-400">IIT Bombay, Batch 2023</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-6 relative">
+                <div class="space-y-6 mt-12">
+                    <div class="bg-white text-slate-900 p-6 rounded-3xl"><p class="text-sm">Best study material!</p></div>
+                    <div class="bg-brand-blue p-6 rounded-3xl"><p class="text-sm">Great doubt sessions.</p></div>
+                </div>
+                <div class="space-y-6">
+                    <div class="bg-brand-gold text-slate-900 p-6 rounded-3xl"><p class="text-sm">Cracked NEET in 1st try!</p></div>
+                    <div class="bg-slate-700 p-6 rounded-3xl"><p class="text-sm">Teachers are very friendly.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- START: Gallery Section -->
+    <section class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center dark:text-white mb-16">Life at Academy</h2>
+            <div class="masonry">
+                <div class="mb-6 rounded-3xl overflow-hidden" data-aos="fade-up">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80" class="w-full">
+                </div>
+                <div class="mb-6 rounded-3xl overflow-hidden" data-aos="fade-up">
+                    <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80" class="w-full">
+                </div>
+                <div class="mb-6 rounded-3xl overflow-hidden" data-aos="fade-up">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80" class="w-full">
+                </div>
+                <div class="mb-6 rounded-3xl overflow-hidden" data-aos="fade-up">
+                    <img src="https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?auto=format&fit=crop&q=80" class="w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- START: FAQ Section -->
+    <section class="py-24 bg-slate-50 dark:bg-slate-900/50">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center dark:text-white mb-12">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <details class="group bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-700" open>
+                    <summary class="flex justify-between items-center font-bold text-lg cursor-pointer dark:text-white list-none">
+                        How can I take a demo class?
+                        <span class="transition-transform group-open:rotate-180"><i data-lucide="chevron-down"></i></span>
+                    </summary>
+                    <p class="mt-4 text-slate-600 dark:text-slate-400">You can visit our center or call us at +91 98765 43210 to book your 2-day free demo session any day of the week.</p>
+                </details>
+                <details class="group bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-700">
+                    <summary class="flex justify-between items-center font-bold text-lg cursor-pointer dark:text-white list-none">
+                        Do you provide study material?
+                        <span class="transition-transform group-open:rotate-180"><i data-lucide="chevron-down"></i></span>
+                    </summary>
+                    <p class="mt-4 text-slate-600 dark:text-slate-400">Yes, we provide comprehensive, printed study modules, daily practice papers (DPPs), and an online testing portal.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- START: Contact Section -->
+    <section id="contact" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="bg-brand-blue rounded-[40px] overflow-hidden shadow-2xl flex flex-col lg:flex-row">
+                <div class="lg:w-1/2 p-12 lg:p-20 text-white">
+                    <h2 class="text-4xl font-bold mb-8">Get in Touch</h2>
+                    <p class="text-blue-100 mb-12 text-lg">Have questions? Our counselor is just a message away.</p>
+                    <div class="space-y-8">
+                        <div class="flex gap-6">
+                            <i data-lucide="map-pin" class="text-brand-gold"></i>
+                            <p class="text-xl">123 Education Hub, Sector 15, New Delhi, India</p>
+                        </div>
+                        <div class="flex gap-6">
+                            <i data-lucide="phone" class="text-brand-gold"></i>
+                            <p class="text-xl">+91 98765 43210</p>
+                        </div>
+                        <div class="flex gap-6">
+                            <i data-lucide="mail" class="text-brand-gold"></i>
+                            <p class="text-xl">info@brightfuture.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 bg-white dark:bg-slate-800 p-12 lg:p-20">
+                    <form onsubmit="event.preventDefault(); alert('Message sent! Our counselor will call you shortly.')" class="space-y-6">
+                        <input type="text" placeholder="Your Name" required class="w-full px-6 py-4 rounded-xl bg-slate-50 dark:bg-slate-900 border-none ring-1 ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-brand-blue outline-none dark:text-white">
+                        <input type="email" placeholder="Email Address" required class="w-full px-6 py-4 rounded-xl bg-slate-50 dark:bg-slate-900 border-none ring-1 ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-brand-blue outline-none dark:text-white">
+                        <select class="w-full px-6 py-4 rounded-xl bg-slate-50 dark:bg-slate-900 border-none ring-1 ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-brand-blue outline-none dark:text-white">
+                            <option>Interested Course</option>
+                            <option>JEE Foundation</option>
+                            <option>NEET Excellence</option>
+                        </select>
+                        <textarea placeholder="Your Message" rows="4" class="w-full px-6 py-4 rounded-xl bg-slate-50 dark:bg-slate-900 border-none ring-1 ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-brand-blue outline-none dark:text-white"></textarea>
+                        <button class="w-full py-4 bg-brand-gold text-white font-bold text-lg rounded-xl hover:bg-amber-600 transition-all shadow-xl shadow-amber-200 dark:shadow-none">
+                            Submit Application
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- START: Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-20 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 mb-12">
+            <div class="col-span-1 md:col-span-1">
+                <div class="flex items-center gap-2 mb-8">
+                    <div class="bg-brand-blue p-2 rounded-xl">
+                        <i data-lucide="graduation-cap" class="text-white w-6 h-6"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-white tracking-tight">Bright<span class="text-brand-gold">Future</span></span>
+                </div>
+                <p class="leading-relaxed">Building the foundation of success since 2014. We provide quality education that transforms lives.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-xl mb-6">Quick Links</h4>
+                <ul class="space-y-4">
+                    <li><a href="#" class="hover:text-brand-gold transition-colors">About Us</a></li>
+                    <li><a href="#" class="hover:text-brand-gold transition-colors">Admissions</a></li>
+                    <li><a href="#" class="hover:text-brand-gold transition-colors">Scholarship Test</a></li>
+                    <li><a href="#" class="hover:text-brand-gold transition-colors">Study Material</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-xl mb-6">Contact Us</h4>
+                <ul class="space-y-4">
+                    <li>+91 98765 43210</li>
+                    <li>info@brightfuture.com</li>
+                    <li>Hauz Khas, New Delhi</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-xl mb-6">Newsletter</h4>
+                <div class="flex gap-2">
+                    <input type="text" placeholder="Email" class="bg-slate-900 border border-slate-800 rounded-lg px-4 py-2 w-full focus:border-brand-blue outline-none">
+                    <button class="bg-brand-blue text-white p-2 rounded-lg hover:bg-blue-600"><i data-lucide="send"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="text-center pt-8 border-t border-slate-900 text-sm">
+            © 2024 Bright Future Academy. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Floating Action Buttons -->
+    <div class="fixed bottom-10 right-10 z-[100] flex flex-col gap-4">
+        <a href="https://wa.me/919876543210" target="_blank" class="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
+            <i data-lucide="message-circle" class="w-8 h-8"></i>
+        </a>
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-16 h-16 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full flex items-center justify-center shadow-2xl hover:-translate-y-2 transition-all">
+            <i data-lucide="arrow-up" class="w-8 h-8"></i>
+        </button>
+    </div>
+
+    <!-- START: Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animations
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Dark Mode Detection (System Preference)
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            // Uncomment to enable automatic dark mode detection
+            // document.body.setAttribute('x-data', '{ darkMode: true }');
+        }
+    </script>
+</body>
+</html>
